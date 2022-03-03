@@ -1,1 +1,3 @@
 Hey I added some info to this file
+Here is some more text for this file
+It is now changed
