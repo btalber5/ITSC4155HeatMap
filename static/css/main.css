@@ -1,0 +1,381 @@
+
+body {
+    padding: none;
+    margin: 0;
+    font-family: sans-serif;
+    font-size: 18px;
+    line-height: 28px;
+    color: var(--black);
+    background: #cdffcd;
+}
+
+h1{
+    color:green;
+
+}
+h2{
+    color:gold;
+    background:green;
+    padding: none;
+    margin: none;
+}
+nav{
+    display: block;
+    padding: none;
+    margin: none;
+}
+#navbar{
+    background-color: grey;
+    overflow: hidden;
+    padding: none;
+    margin: none;
+}
+a{
+    text-decoration: none;
+}
+nav nav a{
+    display: inline;
+    background: grey;
+    padding: 8px;
+    float: left;
+    text-decoration: none;
+    color: white;
+
+}
+nav nav a:hover{
+    background-color: green;
+    color: white;
+}
+#categories{
+    background-color: grey;
+    overflow: hidden;
+    padding: none;
+    margin: none;
+ }
+ #categories a{
+    display: inline-block;
+    background: grey;
+    padding: 8px;
+    text-decoration: none;
+    color: white;
+ }
+ #categories a:hover{
+    background-color: green;
+    color: white;
+ }
+textarea{
+    resize: none;
+
+}
+input[type=submit]{
+    display:block;
+    background: grey;
+    padding: 8px;
+    text-decoration: none;
+    color: white;
+}
+form{
+    display: inline-block;
+}
+html, body {
+    margin: 0;
+    padding: 0;
+ }
+ #home_image{
+     padding: none;
+     display: block;
+     margin-left: auto;
+     margin-right: auto;
+     height: 25%;
+     width: 100%;
+ }
+ nav #categories{
+    display: inline;
+    background: grey;
+    padding: none;
+    text-decoration: none;
+    color: white;;
+ }
+ #categories a{
+    display: inline-block;
+    background: grey;
+    padding: 8px;
+    text-decoration: none;
+    color: white;
+ }
+ #categories a:hover{
+    background-color: green;
+    color: white;
+ }
+
+ /*
+  Colors: http://getuicolors.com
+*/
+
+/* Setup */
+:root {
+    --black: #000000;
+    --almost-black: #263238;
+    --white: #ffffff;
+    --almost-white: #FBFBFB;
+    --grey-light: #CFD8DC;
+    --grey: #B0BEC5;
+    --grey-medium: #78909C;
+    --grey-dark: #455A64;
+    --primary: #1E88E5;
+    --primary-dark: #1976D2;
+    --secondary: #CFD8DC;
+    --secondary-dark: #B0BEC5;
+    --red: #EF4836;
+  }
+  
+  * {
+    position: relative;
+    box-sizing: border-box;
+  }
+  
+  /* Typography */
+  .center {
+    text-align: center;
+  }
+  
+  h1 {
+    margin: 0.5em 0 1em;
+    font-size: 26px;
+    line-height: 1.2;
+    color: var(--almost-black);
+  }
+  
+  h2 {
+    margin: 0.5em 0 1em;
+    font-size: 20px;
+    line-height: 1.2;
+    color: var(--grey-dark);
+  }
+  
+  p {
+    margin: 24px 0;
+  }
+  
+  /* Cards */
+  .card-wrapper {
+    margin: 0 auto;
+    padding: 90px 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+    display: flex;
+  }
+  
+  .card {
+    margin: 0 30px 60px;
+    padding: 20px 40px;
+    width: 460px;
+    box-shadow: 0 8px 26px -4px rgba(0,0,0,0.15);
+    border-radius: 5px;
+    background: var(--white);
+  }
+  
+  @media only screen and (max-width: 520px) {
+    .card-wrapper {
+      padding: 30px 0 0;
+    }
+  }
+  
+  @media only screen and (max-width: 520px) {
+    .card {
+      margin: 0 0 30px;
+      width: 100%;
+      border-radius: 0;
+    }
+  }
+  
+  /* Forms */
+  form {
+    transition: opacity .15s ease;
+  }
+  
+  form.loading {
+    pointer-events: none;
+    opacity: 0.75;
+  }
+  
+  label {
+    margin: 0 0 2px;
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: 1px;
+    color: var(--grey-medium);
+    display: block;
+  }
+  
+  .field {
+    margin: 0 0 24px;
+    padding: 11px 16px 9px;
+    width: 100%;
+    font-size: 16px;
+    line-height: 26px;
+    color: var(--almost-black);
+    border: 1px solid var(--grey);
+    border-radius: 4px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+    display: block;
+    background: var(--almost-white);
+    transition: border-color .15s ease;
+  }
+  
+  .field:focus {
+    border-color: var(--grey-medium);
+    outline: none;
+  }
+  
+  .error {
+    margin: 0;
+    font-size: 16px;
+    line-height: 26px;
+    text-align: center;
+    color: var(--red);
+  }
+  
+  .error--hidden {
+    display: none;
+  }
+  
+  /* Buttons */
+  .btn {
+    margin: 0 0 24px;
+    padding: 11px 30px 10px;
+    font-size: 14px;
+    line-height: 24px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--white);
+    border: none;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    display: inline-block;
+    background: var(--primary);
+    transition: color .15s ease, background-color .15s ease;
+  }
+  
+  .btn:hover {
+    background: var(--primary-dark);
+  }
+  
+  .btn--secondary {
+    color: var(--almost-black);
+    background: var(--secondary);
+  }
+  
+  .btn--secondary:hover {
+    background: var(--secondary-dark);
+  }
+  
+  input[type=submit] {
+    margin: 34px auto 24px;
+    display: block;
+  }
+
+  .form-control::placeholder {
+    font-size: 0.95rem;
+    color: #aaa;
+    font-style: italic;
+  }
+  
+  .form-control.shadow-0:focus {
+    box-shadow: none;
+  }
+  
+  footer{
+    margin-top:auto; 
+  }
+
+  #input-file{
+    margin-top: 5px;
+  }
+  #content-target{
+    height: 400px;
+    width: 100%;
+    resize: none;
+  }
+  
+  
+  
+  #tabs{
+    margin: auto;
+    width: 100%;
+    height: 900px;
+    border: none;
+    border-radius: 0px;
+  }
+  #tabs a{
+    background-color: #145215;
+    box-shadow: -2px -2px 2px #667;
+    transition: 0.5s;
+  }
+  #tabs li a:hover{
+    box-shadow: -3px -3px 2px #667;
+    position: relative;
+    top: 1px;
+    left: 1px;
+  }
+  
+  
+  
+  
+  
+  #tab-0{
+    background: rgba(255,255,255,0.2);
+  }
+  #tab-1{
+    background: rgba(255,255,255,0.2);
+  }
+  #tab-2{
+    background: rgba(255,255,255,0.2);
+  }
+  #tab-3{
+    background: rgba(255,255,255,0.2);
+  }
+  
+  
+  #chart{
+    width: 400px;
+    margin: auto;
+  }
+  .graphImg{
+    margin: 20px;
+    border: white 2px;
+  }
+  #pie{
+    height: 400px;
+    width: 400px;
+  }
+  #line{
+    width: 780px;
+    height: 400px;
+  }
+  
+  #map {
+    height: 500px;
+  }
+  
+  
+  
+  #popTable th{
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+  }
+  #popTable tr:nth-child(even){background-color: #fff;}
+  
+  #popTable tr:hover {background-color: #565;}
+  
+  .timePicker{
+    margin: 3px;
+  }
+
+ 
