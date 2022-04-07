@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.secret_key = b'\xcc^\x91\xea\x17-\xd0W\x03\xa7\xf8J0\xac8\xc5'
 
 # Database
-client = pymongo.MongoClient('localhost', 27017)
+client = pymongo.MongoClient("mongodb://TeamNine:W5QSpI81YBBHrgas@cluster0-shard-00-00.ljtel.mongodb.net:27017,cluster0-shard-00-01.ljtel.mongodb.net:27017,cluster0-shard-00-02.ljtel.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-vp85gf-shard-0&authSource=admin&retryWrites=true&w=majority")
 db = client.user_login_system
 
 # Decorators
