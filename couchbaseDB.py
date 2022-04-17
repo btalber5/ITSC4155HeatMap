@@ -9,16 +9,20 @@ PasswordAuthenticator('Administrator', 'password')))
 
 cb = cluster.bucket('accessPointLogs')
 
+cb2 = cluster.bucket('aggregateData')
+
 cb_coll_default = cb.default_collection()
 
+cb2_coll_default = cb2.default_collection()
 
 
-def upsert_document(doc):
+
+def upsert_document(doc,keyVal):
   print("\nUpsert CAS: ")
   try:
     # key will equal: "airline_8091"
-    key = doc["id"]
-    result = cb_coll_default.upsert(key, doc)
+    key = keyVal
+    result = cb2_coll_default.upsert(key, doc)
     print(result.cas)
   except Exception as e:
     print(e)
@@ -46,8 +50,22 @@ def queryCountBetweenTimesofAll(time1,time2,month,year):
       QueryOptions(metrics=True))
     for row in result:
       connectTrue = connectTrue + 1
-
+      print(connectTrue)
     return connectTrue
+  except CouchbaseException as ex:
+    import traceback
+    traceback.print_exc()
+
+def aggregateData(time1,time2,month,year):
+  connectTrue = 0
+  try:
+    result = cluster.query(
+      "SELECT COUNT(*) as count FROM accessPointLogs WHERE split(formattedDate,'-')[0] = '"+year+"' and split(formattedDate,'-')[1] = '"+month+"' and split(formattedDate,' ')[1] between '"+time1+"' and '"+time2+"' AND connected = true",
+      QueryOptions(metrics=True))
+    for row in result:
+      countVal  = row['count']
+    return countVal
+
   except CouchbaseException as ex:
     import traceback
     traceback.print_exc()
@@ -78,20 +96,11 @@ def deconvertTimeToMinutes(time1):
 
   else:
     if(minute < 10):
-      returnTime = str(hour) + ": 0" + str(minute) + ":00"
+      returnTime = str(hour) + ":0" + str(minute) + ":00"
     else:
       returnTime = str(hour) + ":" + str(minute) + ":00"
 
   return returnTime
-
-
-
-print(convertTimetoMinutes("08:00:00"))
-print(convertTimetoMinutes("08:10:00"))
-
-print(queryCountBetweenTimesofAll("00:00:00","02:00:00","01","2021"))
-
-
 
 
 

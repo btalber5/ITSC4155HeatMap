@@ -4,6 +4,7 @@ from functools import wraps
 import pymongo
 import certifi
 import couchbaseDB
+import datetime
 
 app = Flask(__name__)
 app.secret_key = b'\xcc^\x91\xea\x17-\xd0W\x03\xa7\xf8J0\xac8\xc5'
@@ -78,7 +79,9 @@ def dashboard():
                 queryTime2 = couchbaseDB.deconvertTimeToMinutes(
                     couchbaseDB.convertTimetoMinutes(queryTime1) + 60)
                 #print(queryTime2)
-                queryMonth = couchbaseDB.queryCountBetweenTimesofAll(queryTime1, queryTime2, monthVal, "2021")
+                queryMonth = couchbaseDB.queryCountBetweenTimesofAll(queryTime1, queryTime2, monthVal, "2020")
+                result = couchbaseDB.cb2_coll_default.get("agg_2021_"+monthVal)
+
 
                 timeDict[hoursStartTime + i + 1] = {
 
@@ -114,6 +117,90 @@ def dashboard():
         print(jsonData)
 
         return render_template('testingCouchbase.html', queriedInfo=jsonData, startdate=firstTime, enddate=endtime,numberOfSteps = numberOfSteps,totalWeight = totalWeight,hoursStartTime = hoursStartTime)
+    else:
+        return render_template('dashboard.html')
+
+@app.route('/dashboard2/', methods=['GET', 'POST'])
+@login_required
+def dashboard2():
+
+    if request.method == "POST":
+
+        firstTime = request.form.get("starttime")
+        endtime = request.form.get("endtime")
+
+        formatFirstTime = firstTime + ":00:00"
+        formattedfEndTime = endtime + ":00:00"
+
+        numberOfTicks = int((couchbaseDB.convertTimetoMinutes(formattedfEndTime) - couchbaseDB.convertTimetoMinutes(
+            formatFirstTime)) / 10)
+        numberOfSteps = int(
+            ((couchbaseDB.convertTimetoMinutes(formattedfEndTime) / 60) - (
+                        couchbaseDB.convertTimetoMinutes(formatFirstTime) / 60)))
+
+        hoursStartTime = int(couchbaseDB.convertTimetoMinutes(formatFirstTime) / 60)
+
+        jsonMonths = {
+
+        }
+        monthVal = "01"
+        totalWeight = 0
+        listMonth = []
+
+        for y in range(0, 12):
+            months = {
+
+            }
+            listTime = []
+
+            convertedStart = int(couchbaseDB.convertTimetoMinutes(formatFirstTime))
+            for i in range(0, numberOfSteps):
+                timeDict = {}
+                queryTime1 = couchbaseDB.deconvertTimeToMinutes(convertedStart)
+
+                queryTime2 = couchbaseDB.deconvertTimeToMinutes(
+                    couchbaseDB.convertTimetoMinutes(queryTime1) + 60)
+                sTime = datetime.datetime.now()
+                result = couchbaseDB.cb2_coll_default.get("agg_2021_" + monthVal)
+
+                eTime = datetime.datetime.now()
+
+                execTime = eTime - sTime
+                print(execTime)
+
+                timeDict[hoursStartTime + i + 1] = {
+
+                    "connectedValue": result.content['aggregate'][queryTime1 + "-"+queryTime2]['weight'],
+                    "monthVal": monthVal,
+                    "time": hoursStartTime + i + 1
+                }
+                totalWeight = totalWeight + result.content['aggregate'][queryTime1 + "-"+queryTime2]['weight']
+                listTime.append(timeDict)
+                print(listTime)
+
+                convertedStart = couchbaseDB.convertTimetoMinutes(queryTime2)
+            months["month_" + str(y)] = {
+
+                "Time": listTime
+
+            }
+
+            locals().update(months)
+            listMonth.append(months)
+            monthValInt = int(monthVal) + int("01")
+
+            if (monthValInt < 10):
+                monthVal = "0" + str(monthValInt)
+            else:
+                monthVal = str(monthValInt)
+
+        jsonData = {
+            "Month": listMonth
+
+        }
+
+
+        return render_template('testingCouchbase.html',queriedInfo=jsonData, startdate=firstTime, enddate=endtime,numberOfSteps = numberOfSteps,totalWeight = totalWeight,hoursStartTime = hoursStartTime)
     else:
         return render_template('dashboard.html')
 
