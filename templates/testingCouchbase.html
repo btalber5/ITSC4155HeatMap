@@ -1,45 +1,50 @@
 {% extends "base.html" %}
 
 {% block content %}
-<body>
-
+<div class="container">
+  <div class="row mb-5 pt-5">
     <div id="tabs">
-      <ul>
-        <li><a href="#tab-1">HeatMap</a></li>
-        <li><a href="#tab-2">Data</a></li>
-        <li><a href="#tab-3">LiveMap</a></li>
+      <ul class="nav nav-pills nav-fill">
+        <li class="nav-item">
+          <a href="#tab-1">HeatMap</a>
+        </li>
+        <li class="nav-item">
+          <a href="#tab-2">Data</a>
+        </li>
+        <li class="nav-item">
+          <a href="#tab-3">LiveMap</a>
+        </li>
       </ul>
 
       <div id="tab-1" class="tab">
         <p id="demo"></p>
         <p id="demo2"></p>
-        <svg id='canvas'>
+        <svg id ='canvas'>
 
-    </svg>
-    <svg id == 'legend'>
-      <g>
-        <rect  x = '10' y = '0' width = '40' height = '40' fill='LightGray'></rect>
-        <text x = '60' y = '20'>NO DATA</text>
-        </g>
-      <g>
-        <rect x = '10' y = '50' width = '40' height = '40' fill='blue'></rect>
-        <text x = '60' y = '70'>less than 0.0005%</text>
-      </g>
-      <g>
-        <rect x = '10' y = '100' width = '40' height = '40' fill='powder'></rect>
-        <text x = '60' y = '120'>less than 0.001%</text>
-      </g>
-      <g>
-        <rect x = '160' y = '0' width = '40' height = '40' fill='aqua'></rect>
-        <text x = '210' y = '20'>less than 0.001%</text>
-      </g>
 
-    </svg>
+        </svg>
+        <svg id == 'legend'>
+          <g>
+            <rect  x = '10' y = '0' width = '40' height = '40' fill='LightGray'></rect>
+            <text x = '60' y = '20'>NO DATA</text>
+            </g>
+          <g>
+            <rect x = '10' y = '50' width = '40' height = '40' fill='blue'></rect>
+            <text x = '60' y = '70'>less than 0.0005%</text>
+          </g>
+          <g>
+            <rect x = '10' y = '100' width = '40' height = '40' fill='powder'></rect>
+            <text x = '60' y = '120'>less than 0.001%</text>
+          </g>
+          <g>
+            <rect x = '160' y = '0' width = '40' height = '40' fill='aqua'></rect>
+            <text x = '210' y = '20'>less than 0.001%</text>
+          </g>
+        </svg>
       </div>
 
 
       <div id="tab-3" class="tab">
-
         <table id="popTable">
           <script type="text/javascript">
             var data = {{queriedInfo|tojson|safe}}
@@ -47,10 +52,11 @@
             var totalWeight = {{totalWeight}}
             var hoursStartTime = {{hoursStartTime}}
           </script>
-
-
-
-
-
+          <script src="/static/js/heatmap.js"></script>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

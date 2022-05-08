@@ -1,50 +1,70 @@
-from flask import Flask, jsonify, request, session, redirect
-from passlib.hash import pbkdf2_sha256
-from app import db
+from datetime import datetime
 import uuid
 
-class User:
+# User class
+class User():
+    def __init__(self, title, first_name, last_name, email, id="", verified=False):
+        # Main initialiser
+        self.title = title if title != "none" else ""
+        self.first_name = first_name
+        self.last_name = last_name
+        self.email = email
+        self.id = uuid.uuid4().hex if not id else id
+        self.verified = verified
 
-  def start_session(self, user):
-    del user['password']
-    session['logged_in'] = True
-    session['user'] = user
-    return jsonify(user), 200
+    @classmethod
+    def make_from_dict(cls, d):
+        # Initialise User object from a dictionary
+        return cls(d['title'], d['first_name'], d['last_name'], d['email'], d['id'], d['verified'])
 
-  def signup(self):
-    print(request.form)
+    def dict(self):
+        # Return dictionary representation of the object
+        return {
+            "id": self.id,
+            "title": self.title,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "email": self.email,
+            "verified": self.verified
+        }
 
-    # Create the user object
-    user = {
-      "_id": uuid.uuid4().hex,
-      "name": request.form.get('name'),
-      "email": request.form.get('email'),
-      "password": request.form.get('password')
-    }
+    def display_name(self):
+        # Return concatenation of name components
+        if self.title:
+            return self.title + " " + self.first_name + " " + self.last_name
+        else:
+            return self.first_name + " " + self.last_name
 
-    # Encrypt the password
-    user['password'] = pbkdf2_sha256.encrypt(user['password'])
+    @property
+    def is_authenticated(self):
+        return True
 
-    # Check for existing email address
-    if db.users.find_one({ "email": user['email'] }):
-      return jsonify({ "error": "Email address already in use" }), 400
+    @property
+    def is_active(self):
+        return True
 
-    if db.users.insert_one(user):
-      return self.start_session(user)
+    @property
+    def is_anonymous(self):
+        return False
 
-    return jsonify({ "error": "signup failed" }), 400
-  
-  def signout(self):
-    session.clear()
-    return redirect('/')
-  
-  def login(self):
+    def get_id(self):
+        return self.id
 
-    user = db.users.find_one({
-      "email": request.form.get('email')
-    })
 
-    if user and pbkdf2_sha256.verify(request.form.get('password'), user['password']):
-      return self.start_session(user)
-    
-    return jsonify({ "error": "Invalid login credentials" }), 401
+# Anonymous user class
+class Anonymous():
+
+    @property
+    def is_authenticated(self):
+        return False
+
+    @property
+    def is_active(self):
+        return False
+
+    @property
+    def is_anonymous(self):
+        return True
+
+    def get_id(self):
+        return None

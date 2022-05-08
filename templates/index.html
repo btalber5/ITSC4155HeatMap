@@ -1,50 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="card-wrapper">
-
-    <div class="card">
-
-      <h1 class="center">Create an Account</h1>
-
-      <form name="signup_form">
-
-        <label for="name">Name</label>
-        <input type="text" name="name" class="field" required>
-
-        <label for="email">Email</label>
-        <input type="email" name="email" class="field" required>
-
-        <label for="password">Password</label>
-        <input type="password" name="password" class="field" required>
-
-        <p class="error error--hidden"></p>
-
-        <input type="submit" value="Register" class="btn">
-      
-      </form>
-      
+<div class="container">
+    <div class="row">
+        <div class="col-md-5 mx-md-auto pt-5">
+            <h1 class="text-success">Welcome!</h1>
+            <h2>Campus HeatMap</h2>
+            <p class="text-muted">by Team Nine</p>
+            <div class="my-3">
+                {% if current_user.is_authenticated %}
+                <p class="w-100 text-center p-2 my-3 border border-success text-success rounded">You are logged in as {{ current_user.display_name() }}</p>
+                {% else %}
+                <a class="btn btn-success my-3 w-100" href="{{ url_for('login') }}">Login</a>
+                <p>Don't have an account? <a href="{{ url_for('register') }}">Sign up here</a>.</p>
+                <hr class="my-3" />
+                {% endif %}
+                </p>This application is a heat map that helps use wifi data to help collect and visualize traffic patterns on campus.</p>
+                <p>This application is meant to only be open to people upon request and not to the public.</p>
+                <p>We are here to help assist you coming in and out of campus so they know when’s the best time to come.</p>
+            </div>
+        </div>
     </div>
-
-    <div class="card">
-
-      <h1 class="center">Log In</h1>
-
-      <form name="login_form">
-
-        <label for="email">Email</label>
-        <input type="email" name="email" class="field" required>
-
-        <label for="password">Password</label>
-        <input type="password" name="password" class="field" required>
-
-        <p class="error error--hidden"></p>
-
-        <input type="submit" value="Log In" class="btn">
-      
-      </form>
-      
-    </div>
-  
-  </div>
+</div> 
 {% endblock %}

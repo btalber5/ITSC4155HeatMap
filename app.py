@@ -1,32 +1,34 @@
 import os  # os is used to get environment variables IP & PORT
 from flask import Flask, render_template, session, redirect, request, jsonify, Response
 from functools import wraps
-import pymongo
-import certifi
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+from flask_pymongo import PyMongo
+from flask_bcrypt import Bcrypt
+from flask_wtf.csrf import CSRFProtect
 import couchbaseDB
 import datetime
+import configparser
 
 app = Flask(__name__)
-app.secret_key = b'\xcc^\x91\xea\x17-\xd0W\x03\xa7\xf8J0\xac8\xc5'
 
-# Database
-client = pymongo.MongoClient(
-    "mongodb://BraxtonT9:W5QSpI81YBBHrgas@cluster0-shard-00-00.ljtel.mongodb.net:27017,cluster0-shard-00-01.ljtel.mongodb.net:27017,cluster0-shard-00-02.ljtel.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-vp85gf-shard-0&authSource=admin&retryWrites=true&w=majority",
-    tlsCAFile=certifi.where())
-db = client.user_login_system
+# Configuration
+config = configparser.ConfigParser()
+config.read('configuration.ini')
+default = config['DEFAULT']
+app.secret_key = default['SECRET_KEY']
+app.config['MONGO_DBNAME'] = default['DATABASE_NAME']
+app.config['MONGO_URI'] = default['MONGO_URI']
+app.config['PREFERRED_URL_SCHEME'] = "https"
 
+# Create Pymongo
+mongo = PyMongo(app)
 
-# Decorators
-def login_required(f):
-    @wraps(f)
-    def wrap(*args, **kwargs):
-        if 'logged_in' in session:
-            return f(*args, **kwargs)
-        else:
-            return redirect('/')
+# Create Bcrypt
+bc = Bcrypt(app)
 
-    return wrap
-
+# Create CSRF protect
+csrf = CSRFProtect()
+csrf.init_app(app)
 
 # Routes
 from user import routes
