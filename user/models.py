@@ -3,9 +3,10 @@ import uuid
 
 # User class
 class User():
-    def __init__(self, title, first_name, last_name, email, id="", verified=False):
+    def __init__(self, title, reason, first_name, last_name, email, id="", verified=False):
         # Main initialiser
         self.title = title if title != "none" else ""
+        self.reason = reason
         self.first_name = first_name
         self.last_name = last_name
         self.email = email

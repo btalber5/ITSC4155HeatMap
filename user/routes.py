@@ -70,7 +70,8 @@ def register():
     if request.method == 'POST':
         # Trim input data
         email = request.form['email'].strip()
-        role = request.form['role'].strip()
+        title = request.form['title'].strip()
+        reason = request.form['reason'].strip()
         first_name = request.form['first_name'].strip()
         last_name = request.form['last_name'].strip()
         password = request.form['pass'].strip()
@@ -85,7 +86,7 @@ def register():
             # Hash password
             hashpass = bc.generate_password_hash(password).decode('utf-8')
             # Create user object (note password hash not stored in session)
-            new_user = User(role, first_name, last_name, email)
+            new_user = User(title, reason, first_name, last_name, email)
             # Create dictionary data to save to database
             user_data_to_save = new_user.dict()
             user_data_to_save['password'] = hashpass
