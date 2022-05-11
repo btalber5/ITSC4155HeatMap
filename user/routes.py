@@ -1,14 +1,24 @@
 from flask import Flask
 from app import app, bc, mongo
-from flask import Flask, render_template, request, url_for, request, redirect, abort
+from flask import Flask, render_template, request, url_for, request, redirect, abort, flash
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask import session, request, render_template, redirect, url_for
 from urllib.parse import urlparse, urljoin
 import bcrypt
 from flask_mail import Mail,Message
+from forms import ContactForm
 from user.models import User, Anonymous
 from user.email_utility import send_registration_email
 from user.verification import confirm_token
+
+mail = Mail()
+ 
+app.config["MAIL_SERVER"] = "smtp.mailosaur.net"
+app.config["MAIL_PORT"] = 587
+app.config["MAIL_USERNAME"] = 'alnq3kie@mailosaur.net'
+app.config["MAIL_PASSWORD"] = 'KxhspIQecDvJl0kk'
+ 
+mail.init_app(app)
 
 # Create login manager
 login_manager = LoginManager()
@@ -95,7 +105,7 @@ def register():
             if users.insert_one(user_data_to_save):
                 login_user(new_user)
                 send_registration_email(new_user)
-                return redirect(url_for('dashboard'))
+                return redirect(url_for('profile'))
             else:
                 # Handle database error
                 return redirect(url_for('register', error=2))
@@ -144,4 +154,24 @@ def profile():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('index'))    
+    return redirect(url_for('index')) 
+
+@app.route('/contact', methods=['GET', 'POST'])
+def contact():
+  form = ContactForm()  
+  if request.method == 'POST':
+    if form.validate() == False:
+      flash('All fields are required.')
+      return render_template('contact.html', form=form)
+    else:
+      msg = Message(form.subject.data, sender='contact@example.com', recipients=['alnq3kie@mailosaur.net'])
+      msg.body = """
+      From: %s <%s>
+      %s
+      """ % (form.name.data, form.email.data, form.message.data)
+      mail.send(msg)
+ 
+      return 'Form posted.'
+ 
+  elif request.method == 'GET':
+    return render_template('contact.html', form=form) 

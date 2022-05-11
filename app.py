@@ -5,6 +5,7 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from flask_pymongo import PyMongo
 from flask_bcrypt import Bcrypt
 from flask_wtf.csrf import CSRFProtect
+from forms import ContactForm
 import couchbaseDB
 import datetime
 import configparser
@@ -38,6 +39,9 @@ from user import routes
 def index():
     return render_template('index.html')
 
+@app.route('/about')
+def about():
+    return render_template('about')    
 
 @app.route('/dashboard/', methods=['GET', 'POST'])
 @login_required

@@ -16,13 +16,14 @@ class User():
     @classmethod
     def make_from_dict(cls, d):
         # Initialise User object from a dictionary
-        return cls(d['title'], d['first_name'], d['last_name'], d['email'], d['id'], d['verified'])
+        return cls(d['title'], d['reason'], d['first_name'], d['last_name'], d['email'], d['id'], d['verified'])
 
     def dict(self):
         # Return dictionary representation of the object
         return {
             "id": self.id,
             "title": self.title,
+            "reason": self.reason,
             "first_name": self.first_name,
             "last_name": self.last_name,
             "email": self.email,

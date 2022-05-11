@@ -4,6 +4,7 @@ import ssl
 import configparser
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from forms import ContactForm
 from user.verification import generate_confirmation_token
 
 
@@ -62,4 +63,4 @@ def send_registration_email(user):
     plaintext = f"Welcome {user.display_name()}.\nPlease verify your email address by following this link:\n\n{confirm_url}"
     html = render_template('verification_email.html',
                            confirm_url=confirm_url, user=user)
-    send_email('nmchowdhury79@gmail.com', subject, plaintext, html)
+    send_email('nchowdh7@uncc.edu', subject, plaintext, html) 
