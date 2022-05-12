@@ -8,26 +8,35 @@
         <li class="nav-item">
           <a href="#tab-1">HeatMap</a>
         </li>
-        <li class="nav-item">
-          <a href="#tab-2">Data</a>
-        </li>
-        <li class="nav-item">
-          <a href="#tab-3">LiveMap</a>
-        </li>
       </ul>
 
       <div id="tab-1" class="tab">
-        <p>
-          <div id="map">
-            <div class="mapouter"><div class="gmap_canvas"><iframe width="865" height="389" id="gmap_canvas" src="https://maps.google.com/maps?q=uncc&t=&z=17&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://123movies-to.org"></a><br><style>.mapouter{position:relative;text-align:right;height:389px;width:865px;}</style><a href="https://www.embedgooglemap.net">google maps on webpage</a><style>.gmap_canvas {overflow:hidden;background:none!important;height:389px;width:865px;}</style></div></div>
-        </div>
-          <form action="{{url_for('dashboard2')}}" method = "POST">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-            Start Time:<input class="timePicker" type="text" name="starttime" value="00:00:00">
-            End Time:<input class="timePicker" type="text" name="endtime" value="00:00:00">
-            <input type="submit" value = "Submit"/>
-          </form>
-        </p>
+        <div class="card-wrapper">
+          <div class="card">
+              <div class="col-md-5 mx-md-auto pt-5">
+                <form action="{{url_for('dashboard2')}}" method = "POST">
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                  <div class="form-group">
+                    <label for="year">Year</label>
+                    <select class="form-control" id="year" name="year" required>
+                      <option value="" selected disabled hidden>Select Year</option>
+                      <option type="text">2020</option>
+                      <option type="text">2021</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="starttime">Start Time:</label>
+                    <input class="timePicker" type="text" name="starttime" value="00:00:00">
+                  </div>
+                  <div class="form-group">
+                    <label for="endtime">End Time:</label>
+                    <input class="timePicker" type="text" name="endtime" value="00:00:00">
+                  </div>
+                  <input type="submit" value = "Submit"/>
+                </form>
+              </div>
+          </div>
+        </div>      
       </div>
 
       <div id="tab-3" class="tab">

@@ -34,14 +34,13 @@ csrf.init_app(app)
 # Routes
 from user import routes
 
-
 @app.route('/')
 def index():
     return render_template('index.html')
 
 @app.route('/about')
 def about():
-    return render_template('about')    
+    return render_template('about.html')    
 
 @app.route('/dashboard/', methods=['GET', 'POST'])
 @login_required
@@ -134,6 +133,7 @@ def dashboard2():
 
         firstTime = request.form.get("starttime")
         endtime = request.form.get("endtime")
+        year = request.form.get("year")
 
         formatFirstTime = firstTime + ":00:00"
         formattedfEndTime = endtime + ":00:00"
@@ -167,7 +167,7 @@ def dashboard2():
                 queryTime2 = couchbaseDB.deconvertTimeToMinutes(
                     couchbaseDB.convertTimetoMinutes(queryTime1) + 60)
                 sTime = datetime.datetime.now()
-                result = couchbaseDB.cb2_coll_default.get("agg_2021_" + monthVal)
+                result = couchbaseDB.cb2_coll_default.get("agg_"+ str(year) +"_"+ monthVal)
 
                 eTime = datetime.datetime.now()
 
